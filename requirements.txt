@@ -1,0 +1,9 @@
+pandas==2.2.1
+numpy==1.26.4
+scikit-learn==1.7.2
+xgboost==3.4.1
+joblib==1.5.2
+matplotlib==3.10.7
+seaborn==0.13.2
+kaggle==2.2.4
+python-dotenv==1.0.1
