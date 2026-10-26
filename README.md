@@ -1,6 +1,6 @@
-# Predicción del Precio de Viviendas – House Prices (Ames, Iowa)
+# Predicción del Precio de Viviendas – House Prices
 
-Proyecto Integrador de **Modelos y Simulación de Sistemas I** (2026-II).
+Proyecto **Modelos y Simulación de Sistemas I** (2026-II).
 
 ## Integrantes del equipo
 - Laura Vanessa Botero Gil
