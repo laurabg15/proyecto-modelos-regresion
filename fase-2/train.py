@@ -16,7 +16,7 @@ from src.modelo import (
     excluir_por_id, separar_datos, validacion_cruzada,
 )
 from src.preprocesamiento import ESQUEMA_ENTRADA
-from src.versiones import ErrorVersion, guardar_version, hash_archivo, info_codigo, validar_identificador
+from src.versiones import ErrorVersion, guardar_version, huella_codigo, validar_identificador
 
 FUENTE_DATOS = "https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques/data"
 DIRECTORIO_CODIGO = Path(__file__).resolve().parent
@@ -106,7 +106,6 @@ def entrenar(data, version, target="SalePrice", output_dir="models", seed=80, te
         "datos": {
             "fuente": FUENTE_DATOS,
             "archivo": Path(data).as_posix(),
-            "sha256": hash_archivo(data),
             "observaciones": len(df),
             "columnas": df.shape[1],
         },
@@ -124,7 +123,7 @@ def entrenar(data, version, target="SalePrice", output_dir="models", seed=80, te
             "dependencias": "requirements.txt",
             "librerias": {p: version_paquete(p) for p in ["pandas", "numpy", "scikit-learn", "joblib"]},
         },
-        "codigo": info_codigo(DIRECTORIO_CODIGO),
+        "codigo": huella_codigo(DIRECTORIO_CODIGO),
     }
 
     rutas = guardar_version(output_dir, version, modelo, metricas, metadatos)

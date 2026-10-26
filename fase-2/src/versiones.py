@@ -8,8 +8,8 @@ import json
 import os
 import re
 import shutil
-import subprocess
 import tempfile
+from datetime import datetime
 from pathlib import Path
 
 import joblib
@@ -76,28 +76,42 @@ def cargar_modelo(ruta):
         raise ErrorVersion(f"No se pudo cargar el modelo {ruta}: {error}") from error
 
 
-def hash_archivo(ruta):
+def ultima_version(directorio_modelos):
+    """Devuelve la carpeta de la version mas reciente, segun su fecha de creacion."""
+    directorio_modelos = Path(directorio_modelos)
+    versiones = []
+    for carpeta in directorio_modelos.glob("*"):
+        metadatos = carpeta / ARCHIVO_METADATOS
+        if carpeta.name.startswith(".") or not (carpeta / ARCHIVO_MODELO).is_file() or not metadatos.is_file():
+            continue
+        with open(metadatos, encoding="utf-8") as f:
+            fecha = datetime.fromisoformat(json.load(f)["fecha_creacion"])
+        versiones.append((fecha, carpeta))
+    if not versiones:
+        raise ErrorVersion(f"No hay versiones guardadas en {directorio_modelos}")
+    return max(versiones)[1]
+
+
+def huella_codigo(directorio):
+    """Huella SHA-256 del codigo fuente (train.py, predict.py y src/*.py), sin usar git.
+
+    Identifica el codigo que genero una version: cualquier cambio en esos archivos
+    produce una huella distinta. Los saltos de linea se normalizan para que la huella
+    sea la misma en Windows, Linux y Docker.
+    """
+    directorio = Path(directorio)
+    archivos = sorted(
+        p for p in [directorio / "train.py", directorio / "predict.py", *directorio.glob("src/*.py")]
+        if p.is_file()
+    )
     sha = hashlib.sha256()
-    with open(ruta, "rb") as f:
-        for bloque in iter(lambda: f.read(1 << 20), b""):
-            sha.update(bloque)
-    return sha.hexdigest()
-
-
-def info_codigo(directorio):
-    """Commit de git del codigo. En Docker (sin .git) se toma de la variable GIT_COMMIT."""
-    if os.environ.get("GIT_COMMIT"):
-        return {"commit": os.environ["GIT_COMMIT"], "cambios_sin_commit": None, "fuente": "variable GIT_COMMIT"}
-    try:
-        commit = subprocess.run(
-            ["git", "rev-parse", "HEAD"], cwd=directorio, capture_output=True, text=True, check=True
-        ).stdout.strip()
-        cambios = subprocess.run(
-            ["git", "status", "--porcelain", "--", "."], cwd=directorio, capture_output=True, text=True, check=True
-        ).stdout.strip()
-        return {"commit": commit, "cambios_sin_commit": bool(cambios), "fuente": "git"}
-    except (OSError, subprocess.CalledProcessError):
-        return {"commit": "desconocido", "cambios_sin_commit": None, "fuente": "no disponible"}
+    for archivo in archivos:
+        sha.update(archivo.relative_to(directorio).as_posix().encode())
+        sha.update(archivo.read_bytes().replace(b"\r\n", b"\n"))
+    return {
+        "sha256": sha.hexdigest(),
+        "archivos": [a.relative_to(directorio).as_posix() for a in archivos],
+    }
 
 
 def _escribir_json(ruta, contenido):

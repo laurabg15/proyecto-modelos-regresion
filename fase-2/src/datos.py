@@ -7,7 +7,7 @@ from src.preprocesamiento import ESQUEMA_ENTRADA
 
 
 class ErrorDatos(Exception):
-    """Error previsible en los datos de entrada, con un mensaje para el usuario."""
+    """Error en los datos de entrada."""
 
 
 def leer_csv(ruta):
