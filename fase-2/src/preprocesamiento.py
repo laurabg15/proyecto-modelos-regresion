@@ -49,7 +49,8 @@ class TransformadorCasas(BaseEstimator, TransformerMixin):
 
     def _preparar(self, X):
         self._validar_columnas(X)
-        df = X[self.FEATURES_ORIGINALES].copy()
+        # Indice posicional: el one-hot se une por indice y un indice repetido duplicaria filas
+        df = X[self.FEATURES_ORIGINALES].reset_index(drop=True)
         for c in self.QUAL_COLS:
             df[c] = df[c].map(self.QUAL_MAPPING)
         df["GarageFinish"] = df["GarageFinish"].replace("RFn", "Fin")
@@ -89,4 +90,5 @@ class TransformadorCasas(BaseEstimator, TransformerMixin):
         df = self._codificar_y_escalar(df)[self.columnas_finales_]
         # Garantiza una fila de salida por cada fila de entrada
         assert len(df) == len(X) and not df.isna().any().any()
+        df.index = X.index
         return df
