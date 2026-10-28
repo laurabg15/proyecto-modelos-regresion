@@ -91,7 +91,7 @@ def entrenar(data, version, target="SalePrice", output_dir="models", seed=80, te
 
     metadatos = {
         "version": version,
-        "fecha_creacion": datetime.now().astimezone().isoformat(timespec="seconds"),
+        "fecha_creacion": datetime.now().astimezone().isoformat(timespec="microseconds"),
         "tipo_problema": "regresion",
         "variable_objetivo": target,
         "algoritmo": "Lasso (scikit-learn) dentro de un Pipeline con TransformadorCasas",
@@ -127,7 +127,7 @@ def entrenar(data, version, target="SalePrice", output_dir="models", seed=80, te
     }
 
     rutas = guardar_version(output_dir, version, modelo, metricas, metadatos)
-    return {"rutas": rutas, "metricas": metricas, "metadatos": metadatos}
+    return {"modelo": modelo, "rutas": rutas, "metricas": metricas, "metadatos": metadatos}
 
 
 def imprimir_resumen(resultado):
