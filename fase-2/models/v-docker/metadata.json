@@ -1,0 +1,79 @@
+{
+  "version": "v-docker",
+  "fecha_creacion": "2026-10-27T04:20:44+00:00",
+  "tipo_problema": "regresion",
+  "variable_objetivo": "SalePrice",
+  "algoritmo": "Lasso (scikit-learn) dentro de un Pipeline con TransformadorCasas",
+  "parametros_modelo": {
+    "alpha": 100.0,
+    "max_iter": 10000
+  },
+  "semilla": 80,
+  "variables_entrada": {
+    "OverallQual": "numerica",
+    "ExterQual": "categorica",
+    "BsmtQual": "categorica",
+    "TotalBsmtSF": "numerica",
+    "CentralAir": "categorica",
+    "1stFlrSF": "numerica",
+    "GrLivArea": "numerica",
+    "KitchenQual": "categorica",
+    "GarageFinish": "categorica",
+    "GarageArea": "numerica"
+  },
+  "variables_tras_transformacion": [
+    "OverallQual",
+    "ExterQual",
+    "BsmtQual",
+    "TotalBsmtSF",
+    "1stFlrSF",
+    "GrLivArea",
+    "KitchenQual",
+    "GarageArea",
+    "GarageFinish_Fin",
+    "GarageFinish_SinGaraje",
+    "GarageFinish_Unf",
+    "CentralAir_N",
+    "CentralAir_Y"
+  ],
+  "tratamiento_faltantes": "Sotano/garaje ausente: BsmtQual=0, TotalBsmtSF=0, GarageArea=0, GarageFinish='SinGaraje'. Resto: mediana (numericas) o moda (categoricas) aprendidas en entrenamiento.",
+  "datos": {
+    "fuente": "https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques/data",
+    "archivo": "data/train.csv",
+    "observaciones": 1460,
+    "columnas": 81
+  },
+  "separacion": {
+    "estrategia": "train_test_split aleatorio, antes de ajustar transformaciones",
+    "test_size": 0.2,
+    "observaciones_entrenamiento": 1167,
+    "observaciones_prueba": 292,
+    "ids_excluidos_de_entrenamiento": [
+      1299
+    ]
+  },
+  "metrica_evaluacion": "MAE (principal), RMSE y R2 sobre el conjunto de prueba",
+  "entorno": {
+    "python": "3.12.2",
+    "plataforma": "Linux-5.15.133.1-microsoft-standard-WSL2-x86_64-with-glibc2.36",
+    "dependencias": "requirements.txt",
+    "librerias": {
+      "pandas": "2.2.1",
+      "numpy": "1.26.4",
+      "scikit-learn": "1.7.2",
+      "joblib": "1.5.2"
+    }
+  },
+  "codigo": {
+    "sha256": "8ea34e7675691daf1fb4df6579bf278e261d809098b3fcd424b18cc634ecf764",
+    "archivos": [
+      "predict.py",
+      "src/__init__.py",
+      "src/datos.py",
+      "src/modelo.py",
+      "src/preprocesamiento.py",
+      "src/versiones.py",
+      "train.py"
+    ]
+  }
+}

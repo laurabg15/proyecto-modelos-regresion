@@ -1,0 +1,51 @@
+{
+  "conjunto_evaluacion": "prueba (292 observaciones no usadas para ajustar)",
+  "metrica_principal": "MAE",
+  "modelo": {
+    "MAE": 21002.85004442655,
+    "RMSE": 27678.714804766223,
+    "R2": 0.8548119423898897
+  },
+  "modelo_base": {
+    "MAE": 54044.78424657534,
+    "RMSE": 74326.68784340216,
+    "R2": -0.04695644259529175
+  },
+  "modelo_en_entrenamiento": {
+    "MAE": 23547.362856913613,
+    "RMSE": 35681.39660023414,
+    "R2": 0.8061764761810563
+  },
+  "validacion_cruzada_entrenamiento": {
+    "folds": 5,
+    "modelo": {
+      "MAE": {
+        "media": 23920.302657629527,
+        "desviacion": 1500.4950303781336
+      },
+      "RMSE": {
+        "media": 36313.48412026611,
+        "desviacion": 2952.945206602825
+      },
+      "R2": {
+        "media": 0.7944282324719095,
+        "desviacion": 0.043599277657501045
+      }
+    },
+    "modelo_base": {
+      "MAE": {
+        "media": 55981.69344851619,
+        "desviacion": 3876.7044966805884
+      },
+      "RMSE": {
+        "media": 82725.79333551608,
+        "desviacion": 5729.473695671507
+      },
+      "R2": {
+        "media": -0.04787993964507722,
+        "desviacion": 0.009157651010409884
+      }
+    }
+  },
+  "reduccion_MAE_vs_base_pct": 61.14
+}

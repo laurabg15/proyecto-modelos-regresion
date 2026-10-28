@@ -1,0 +1,22 @@
+# Git y credenciales
+.git
+.gitignore
+.env
+
+# Entornos virtuales y caches
+.venv/
+venv/
+__pycache__/
+**/__pycache__/
+.pytest_cache/
+
+# Datos, modelos y resultados: se montan como volumenes al ejecutar
+data/
+models/
+outputs/
+
+# Archivos que no necesita la aplicacion
+tests/
+README.md
+Dockerfile
+.dockerignore
